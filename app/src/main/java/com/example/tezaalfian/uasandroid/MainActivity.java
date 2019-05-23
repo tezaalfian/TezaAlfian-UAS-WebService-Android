@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button cekData;
     private EditText inputID;
-    private TextView id, nama, daerah, kamar;
+    private TextView id, nama, daerah, kamar, textsuhu, kelembapan;
     private String keyId;
     private RequestQueue mQue;
 
@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         nama = findViewById(R.id.cekNama);
         daerah = findViewById(R.id.cekDaerah);
         kamar = findViewById(R.id.cekKamar);
+        textsuhu = findViewById(R.id.cekSuhu);
+        kelembapan = findViewById(R.id.cekLembap);
 
         cekData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uraiJSON() {
-        String url = "http://192.168.5.15/Mahasantri.json";
+        String url = "http://papaside.com/data.php";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -59,15 +61,19 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject anggota = response.getJSONObject(Integer.parseInt(keyId)-1);
 
-                    String idAnggota = anggota.getString("id");
-                    String namaAnggota = anggota.getString("nama");
-                    String asalDaerah = anggota.getString("asal_daerah");
-                    String asalkamar = anggota.getString("kamar");
+                    String idAnggota = anggota.getString("Kota");
+                    String namaAnggota = anggota.getString("siang");
+                    String asalDaerah = anggota.getString("malam");
+                    String asalkamar = anggota.getString("dini_hari");
+                    String suhu = anggota.getString("suhu");
+                    String lembap = anggota.getString("Kelembapan");
 
                     id.setText(idAnggota);
                     nama.setText(namaAnggota);
                     daerah.setText(asalDaerah);
                     kamar.setText(asalkamar);
+                    textsuhu.setText(suhu);
+                    kelembapan.setText(lembap);
 
                 } catch (JSONException e){
                     e.printStackTrace();
